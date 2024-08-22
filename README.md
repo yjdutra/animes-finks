@@ -71,8 +71,8 @@ Para alterar o ícone do aplicativo, substitua o arquivo `icon.png` na pasta `as
 Aqui estão algumas capturas de tela da aplicação:
 
 <div align="center">
-  <img src="path/to/screenshot1.png" alt="Screenshot 1" width="45%" />
-  <img src="path/to/screenshot2.png" alt="Screenshot 2" width="45%" />
+  <img src="https://github.com/yjdutra/animes-finks/blob/master/assets/pic01.jpeg?raw=true" alt="Screenshot 1" width="45%" />
+  <img src="https://github.com/yjdutra/animes-finks/blob/master/assets/pic02.jpeg?raw=true" alt="Screenshot 2" width="45%" />
 </div>
 
 ## Contribuição
