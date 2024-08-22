@@ -1,4 +1,4 @@
-# Nome do Projeto
+# Anime FInks
 
 Este projeto é uma aplicação mobile que permite aos usuários explorar animes da temporada utilizando a API da Kitsu. Os usuários podem pesquisar por animes, filtrar por serviços de streaming como Crunchyroll, Amazon, Hulu, Disney e Netflix, e visualizar detalhes completos sobre cada anime. A interface é amigável e intuitiva, proporcionando uma experiência fluida e rica em informações sobre o mundo dos animes.
 
