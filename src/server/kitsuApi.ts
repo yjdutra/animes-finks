@@ -58,6 +58,14 @@ export const getSeasonalAnimes = async (season: string, year: string) => {
   return await makeRequest('anime', {
     'filter[season]': season,
     'filter[seasonYear]': year,
+    'page[limit]': 20
+  });
+};
+
+export const getCurrentAnimes = async () => {
+  return await makeRequest('anime', {
+    'filter[status]': 'current',
+    'page[limit]': 20
   });
 };
 
@@ -82,6 +90,18 @@ export const getAnimeGenres = async (animeId: string) => {
 // Função para obter episódios de um anime
 export const getAnimeEpisodes = async (animeId: string) => {
   return await makeRequest(`anime/${animeId}/episodes`);
+};
+
+export const getAnimeProductions = async (animeId: string) => {
+  return await makeRequest(`anime/${animeId}/anime-productions`);
+};
+
+export const getAnimesByStreamingService = async (streamer: string, season: string, year: string) => {
+  return await makeRequest('anime', {
+    'filter[season]': season,
+    'filter[seasonYear]': year,
+    'filter[streamers]': streamer,
+  });
 };
 
 // Carrega o token do dispositivo ao iniciar o app

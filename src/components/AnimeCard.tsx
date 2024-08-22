@@ -1,13 +1,18 @@
-import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { TouchableOpacity, Text, View } from 'react-native';
 import styled from 'styled-components/native';
+import { getAnimeGenres, getAnimeProductions } from '../server/kitsuApi'; // Funções para buscar gêneros e produções
 
 const AnimeCard: React.FC<{ anime: any }> = ({ anime }) => {
 
   return (
     <CardContainer onPress={() => {}}>
       <Poster source={{ uri: anime.attributes.posterImage.medium }} />
-      <AnimeTitle>{anime.attributes.canonicalTitle}</AnimeTitle>
+      <View>
+        <AnimeTitle>{anime.attributes.canonicalTitle}</AnimeTitle>
+        <Text>🇺🇸 {anime.attributes.titles.en}</Text>
+        <Text>🇯🇵 {anime.attributes.titles.ja_jp}</Text>
+      </View>
     </CardContainer>
   );
 };
@@ -29,4 +34,5 @@ const Poster = styled.Image`
 const AnimeTitle = styled.Text`
   font-size: 18px;
   font-weight: bold;
+  margin-bottom: 8px;
 `;

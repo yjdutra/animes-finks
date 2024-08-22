@@ -1,14 +1,20 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Alert } from "react-native";
+import { View, FlatList, Alert, Modal, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { getSeasonalAnimes, loadToken } from "./src/server/kitsuApi";
 import AnimeCard from "./src/components/AnimeCard";
 import KitsuLogin from "./src/components/KitsuLogin";
+import StreamingFilter from "./src/components/StreamingFilter";
+import { season, year } from "./src/configs";
+import SearchInput from "./src/components/SearchInput";
+import AnimeDetailsModal from "./src/components/AnimeDetailsModal";
 
 export default function App() {
   const [animes, setAnimes] = useState([]);
   const [kitsuLogin, setKitsuLogin] = useState<boolean>(true);
+  const [selectedAnime, setSelectedAnime] = useState<any>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     loadToken().then((response) => {
@@ -21,7 +27,7 @@ export default function App() {
 
     const fetchAnimes = async () => {
       try {
-        const data = await getSeasonalAnimes("summer", "2024");
+        const data = await getSeasonalAnimes(season, year);
         setAnimes(data.data);
       } catch (error) {
         Alert.alert("Erro ao carregar animes", error.message);
@@ -30,6 +36,17 @@ export default function App() {
 
     fetchAnimes();
   }, []);
+
+  const handleAnimePress = (anime: any) => {
+    console.log("Prees handleAnimePress");
+    setSelectedAnime(anime);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedAnime(null);
+  };
 
   return (
     <Container>
@@ -40,15 +57,29 @@ export default function App() {
           }}
         />
       </Header>
-      <SearchInput placeholder="Pesquisar Anime..." />
+      <SearchInput setAnimes={setAnimes} />
+      <StreamingFilter season={season} year={year} setAnimes={setAnimes} />
       {kitsuLogin ? (
         <KitsuLogin />
       ) : (
         <FlatList
           data={animes}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <AnimeCard anime={item} />}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPressIn={() => handleAnimePress(item)}>
+              <AnimeCard anime={item} />
+            </TouchableOpacity>
+          )}
         />
+      )}
+      {selectedAnime && (
+        <Modal
+          visible={modalVisible}
+          animationType="slide"
+          onRequestClose={closeModal}
+        >
+          <AnimeDetailsModal anime={selectedAnime} onClose={closeModal} />
+        </Modal>
       )}
       <StatusBar style="auto" />
     </Container>
@@ -69,13 +100,5 @@ const Header = styled.View`
 const HeaderImage = styled.Image`
   width: 100%;
   height: 100%;
-`;
-
-const SearchInput = styled.TextInput`
-  height: 40px;
-  border-width: 1px;
-  border-color: #ddd;
-  margin-bottom: 16px;
-  padding: 8px;
-  border-radius: 4px;
+  border-radius: 8px;
 `;
